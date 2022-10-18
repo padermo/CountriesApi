@@ -18,10 +18,32 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { conn, Country } = require('./src/db.js');
+const axios = require('axios');
+
+// cargamos la DB con los datos de la API al iniciar el servidor
+function cargar() {
+  axios.get('https://restcountries.com/v3/all').then((response) => {
+    const formatCountry = response.data.map(e => {
+      const obj = {
+        id: e.cca3,
+        name: e.name.common.toLowerCase(),
+        image: e.flags[0],
+        continent: e.continents[0],
+        capital: e.capital ? e.capital[0] : 'has not capital',
+        subregion: e.subregion,
+        area: e.area,
+        population: e.population,
+      }
+      return obj;
+    });
+    Country.bulkCreate(formatCountry);
+  });
+}
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({force: true}).then(async () => {
+  await cargar();
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
