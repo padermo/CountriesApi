@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCountryName } from '../../redux/actions';
+import { getCountry } from '../../redux/actions';
 
 function SearchBar() {
   let dispatch = useDispatch();
@@ -12,15 +12,14 @@ function SearchBar() {
   }
 
   const sendValueInput = () => {
-    dispatch(getCountryName(captureInput))
-    console.log(captureInput)
+    dispatch(getCountry(captureInput))
   }
 
   return (
     <div>
       <div>
         <input type="text" placeholder='Buscar...' onChange={obtainInputValue} />
-        <button onClick={sendValueInput}>Buscar</button>
+        <button onClick={sendValueInput} >Buscar</button>
       </div>
     </div>
   )

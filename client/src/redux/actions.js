@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const GET_COUNTRIES = 'GET_COUNTRIES';
 export const GET_DETAILS = 'GET_DETAILS';
-export const GET_COUNTRY_NAME = 'GET_COUNTRY_NAME';
+export const GET_COUNTRY = 'GET_COUNTRY';
 
 
 export const getCoutries = () => {
@@ -19,9 +19,9 @@ export const getDetails = (id) => {
   }
 }
 
-export const getCountryName = (name) => {
+export const getCountry = (name) => {
   return async (dispatch) => {
     let pedidoApi = await axios.get(`http://localhost:3001/countries?name=${name}`);
-    dispatch({ type: GET_COUNTRY_NAME, payload: pedidoApi.data });
+    dispatch({ type: GET_COUNTRY, payload: pedidoApi.data });
   }
 }

@@ -8,11 +8,12 @@ function Countries() {
   // ! LLAMADO A LA DB
   let dispatch = useDispatch();
   let state = useSelector(state => state.countries);
+  let state2 = useSelector(state => state.country);
 
   useEffect(() => {
     dispatch(getCoutries());
   }, [dispatch]);
-
+  
   // ! ACTUALIZADOS DE INFORMACION VISUAL
   const [cambioAsc, setCambioAsc] = useState(false);
   const [cambioDesc, setCambioDesc] = useState(false);
@@ -116,9 +117,12 @@ function Countries() {
 
   // cuando se llame al state
   useEffect(() => {
-    setDatos([...state].splice(0, itemsPage))
+    state.length === 1 ?
+      setDatos([...state])
+      :
+      setDatos([...state].splice(0, itemsPage))
   }, [state, cambioAsc, cambioDesc, cambioMayor, cambioMenor])
-  
+
   // btn next page
   const next = () => {
     const totalElementos = state.length; // tomamos la cantidad de elementos del state general
@@ -169,17 +173,23 @@ function Countries() {
         </select>
       </div>
       {
-        datos.length ?
-          datos.map(e => (
+        state2.length ?
+          state2.map(e => (
             <Link key={e.id} to={`/countries/${e.id}`}>
               <Country name={e.name} image={e.image} continent={e.continent} />
             </Link>
           ))
           :
-          <div>
-            <h1>No se encontraron datos</h1>
-          </div>
-          
+          datos.length ?
+            datos.map(e => (
+              <Link key={e.id} to={`/countries/${e.id}`}>
+                <Country name={e.name} image={e.image} continent={e.continent} />
+              </Link>
+            ))
+            :
+            <div>
+              <h1>No se encontraron datos</h1>
+            </div>
       }
     </div>
   )

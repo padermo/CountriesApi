@@ -1,9 +1,9 @@
-import { GET_COUNTRIES, GET_DETAILS, GET_COUNTRY_NAME } from './actions';
+import { GET_COUNTRIES, GET_DETAILS, GET_COUNTRY } from './actions';
 
 let initialState = {
   countries: [],
+  country: [],
   detail: {},
-  filtro: [],
 }
 
 export default function reducer(state = initialState, action) {
@@ -18,10 +18,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         detail: action.payload
       }
-    case GET_COUNTRY_NAME:
+    case GET_COUNTRY:
       return {
         ...state,
-        countries: action.payload
+        country: [action.payload]
       }
     default:
       return state;
