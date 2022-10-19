@@ -34,7 +34,6 @@ const router = Router();
 // });
 
 
-
 // TODO: ------------------------------- / GET - COUNTRIES NAME QUERY / -------------------------
 // Esta ruta debe obtener de la DB el pais segun el nombre que se envie por query (?name=)
 router.get('/countries', async (req, res) => {
@@ -42,7 +41,7 @@ router.get('/countries', async (req, res) => {
   const { name } = req.query;
   try {
     if (!name) {
-      const allCountries = await Country.findAll();
+      const allCountries = await Country.findAll({include: [{model: Activity}]});
       res.status(200).send(allCountries);
     } else {
       const searchCountry = await Country.findOne({where:{name:name.toLowerCase()}});
@@ -78,6 +77,15 @@ router.post('/activities', async (req, res) => {
     await createActivity.addCountries(countryId);
     // console.log(createActivity.__proto__); // en el __proto__ consultamos los metodos que nos genera sequelize tras crear las relaciones
     res.status(200).send(createActivity);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+router.get('/activities', async (req, res) => {
+  try {
+    const activities = await Activity.findAll();
+    res.status(200).send(activities);
   } catch (error) {
     res.status(400).send(error.message);
   }

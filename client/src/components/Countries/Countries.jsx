@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getCoutries } from '../../redux/actions';
 import Country from './Country';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Countries() {
   // ! LLAMADO A LA DB
@@ -109,6 +110,8 @@ function Countries() {
     }
   }
 
+  
+
   // ! PAGINADO
   const itemsPage = 10;
 
@@ -144,7 +147,18 @@ function Countries() {
     setCurrent(prevPage) // actualizamos el state current
   }
 
+  // ! FILTER ACTIVITIES
+  // obtenemos todas las actividades
+  const [datosActivities, setDatosActivities] = useState([])
 
+  useEffect(async () => {
+    setDatosActivities(await axios.get("http://localhost:3001/activities"));
+  }, [])
+
+  // * hacer logica para filtrar los paises segun la actividad seleccionada
+  const selectActivity = (e) => {
+    
+  }
 
   return (
     <div>
@@ -170,6 +184,15 @@ function Countries() {
           <option value="africa">Africa</option>
           <option value="southAmerica">South America</option>
           <option value="antarctica">Antarctica</option>
+        </select>
+
+        <select onChange={selectActivity}>
+          <option value="default" selected disabled>Elija actividad</option>
+          {
+            datosActivities.data?.map(e => (
+              <option value={e.name} key={e.id}>{e.name}</option>
+            ))
+          }
         </select>
       </div>
       {
