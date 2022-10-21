@@ -82,9 +82,10 @@ router.post('/activities', async (req, res) => {
   }
 })
 
+// TODO: ------------------------------- / GET - ACTIVITY / -------------------------
 router.get('/activities', async (req, res) => {
   try {
-    const activities = await Activity.findAll();
+    const activities = await Activity.findAll({ include: [{ model: Country }] });
     res.status(200).send(activities);
   } catch (error) {
     res.status(400).send(error.message);

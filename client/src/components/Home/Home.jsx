@@ -1,10 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import Activity from '../Activities/Activity';
+import Detail from '../Details/Detail';
+import Countries from '../Countries/Countries';
+import { Route } from 'react-router-dom';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import About from '../About/About';
 
 function Home() {
   return (
-    <div>
-      <Link to={'/countries'}>Entrar</Link>
+    <div className='container-home'>
+      <Header />
+      <Route exact path={'/'} render={()=> <About/>} />
+      <Route exact path={'/countries'} render={() => <Countries />} />
+      <Route exact path={'/activities'} render={() => <Activity />} />
+      <Route exact path={'/countries/:id'} render={({ match }) => <Detail match={match} />} />
+      <Footer/>
     </div>
   )
 }

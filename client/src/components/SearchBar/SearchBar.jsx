@@ -16,10 +16,10 @@ function SearchBar() {
   }
 
   return (
-    <div>
-      <div>
-        <input type="text" placeholder='Buscar...' onChange={obtainInputValue} />
-        <button onClick={sendValueInput} >Buscar</button>
+    <div className='container-searchbar'>
+      <div className='border-search'>
+        <input className='input-search' type="text" placeholder='Buscar...' onChange={obtainInputValue} />
+        <button className='btn-search' onClick={sendValueInput} >Buscar</button>
       </div>
     </div>
   )

@@ -147,73 +147,113 @@ function Countries() {
     setCurrent(prevPage) // actualizamos el state current
   }
 
+
   // ! FILTER ACTIVITIES
   // obtenemos todas las actividades
   const [datosActivities, setDatosActivities] = useState([])
+  // obtenemos la actividad con todos los paises que la contienen
+  const [countriesActivity, setCountriesActivity] = useState([])
+  // guardamos una copia de la info del pais
+  const [copyCountryActivity, setCopyCountryActivity] = useState()
 
-  useEffect(async () => {
-    setDatosActivities(await axios.get("http://localhost:3001/activities"));
+  // hacemos el llamado a la DB y cargamos el state con todas las actividades creadas
+  useEffect(() => {
+    const loadingData = async () => {
+      setDatosActivities(await axios.get("http://localhost:3001/activities"));
+    }
+    loadingData()
   }, [])
 
-  // * hacer logica para filtrar los paises segun la actividad seleccionada
+  // cuando se efectue un cambio en el state datosActivities se va a llenar el state countriesActivity con el arreglo de los paises
+  useEffect(() => {
+    setCountriesActivity(datosActivities.data?.map(e => e.countries))
+  },[datosActivities])
+
+
+  // * hacer logica para filtrar los paises segun la actividad seleccionada -ok
+  // * arreglar el mapeo de los datos guardados en el state para que muestre todos y no solo uno
   const selectActivity = (e) => {
-    
+    if (countriesActivity.length) {
+      if (datosActivities.data[0].name === e.target.value) {
+        setCopyCountryActivity(countriesActivity[0])
+      }
+    }
   }
 
   return (
-    <div>
-      <div>
-        <h2>Page: {current}</h2>
-        <button onClick={prev}>prev</button>
-        <button onClick={next}>next</button>
+    <div className='container-countries'>
+      <div className='container-interno-countries'>
+        <div className='container-options-countries'>
+          <div className='container-paginado'>
+            <button className='btn-paginado' onClick={prev}>Previous</button>
+            <label className='counter-page'>Page: {current}</label>
+            <button className='btn-paginado' onClick={next}>Next</button>
+          </div>
+          <div className='container-filter'>
+            <select className='select-filtros sort-filter' onChange={selectOption}>
+              <option value="default" selected disabled>Sort Filter</option>
+              <option value="asc">A-Z</option>
+              <option value="desc">Z-A</option>
+              <option value="mayorMenor">Mayor a Menor Poblacion</option>
+              <option value="menorMayor">Menor a Mayor Poblacion</option>
+            </select>
 
-        <select onChange={selectOption}>
-          <option value="default" selected disabled>Elija el ordenamiento</option>
-          <option value="asc">A-Z</option>
-          <option value="desc">Z-A</option>
-          <option value="mayorMenor">Mayor a Menor Poblacion</option>
-          <option value="menorMayor">Menor a Mayor Poblacion</option>
-        </select>
+            <select className='select-filtros' onChange={selectContinent}>
+              <option value="default" selected disabled>Continent Filter</option>
+              <option value="asia">Asia</option>
+              <option value="oceania">Oceania</option>
+              <option value="europe">Europe</option>
+              <option value="northAmerica">North America</option>
+              <option value="africa">Africa</option>
+              <option value="southAmerica">South America</option>
+              <option value="antarctica">Antarctica</option>
+            </select>
 
-        <select onChange={selectContinent}>
-          <option value="default" selected disabled>Elija continente</option>
-          <option value="asia">Asia</option>
-          <option value="oceania">Oceania</option>
-          <option value="europe">Europe</option>
-          <option value="northAmerica">North America</option>
-          <option value="africa">Africa</option>
-          <option value="southAmerica">South America</option>
-          <option value="antarctica">Antarctica</option>
-        </select>
-
-        <select onChange={selectActivity}>
-          <option value="default" selected disabled>Elija actividad</option>
+            <select className='select-filtros activity-filter' onChange={selectActivity}>
+              <option value="default" selected disabled>Activity Filter</option>
+              {
+                datosActivities.data?.map(e => (
+                  <option value={e.name} key={e.id}>{e.name}</option>
+                ))
+              }
+            </select>
+          </div>
+        </div> {/* fin div options */}
+        <div className='container-coutries-all'>
           {
-            datosActivities.data?.map(e => (
-              <option value={e.name} key={e.id}>{e.name}</option>
-            ))
+            state2.length ?
+              state2.map(e => (
+                <div key={e.id} className='container-country-map'>
+                  <Link to={`/countries/${e.id}`} className='link'>
+                    <Country name={e.name} image={e.image} continent={e.continent} />
+                  </Link>
+                </div>
+              ))
+              :
+              copyCountryActivity ?
+                copyCountryActivity.map(e => (
+                  <div key={e.id} className='container-country-map'>
+                    <Link to={`/countries/${e.id}`} className='link'>
+                      <Country name={e.name} image={e.image} continent={e.continent} />
+                    </Link>
+                  </div>
+                ))
+              :
+              datos.length ?
+                  datos.map(e => (
+                  <div key={e.id} className='container-country-map'>    
+                    <Link to={`/countries/${e.id}`} className='link'>
+                      <Country name={e.name} image={e.image} continent={e.continent} />
+                    </Link>
+                  </div>
+                ))
+                :
+                <div>
+                  <h1>No se encontraron datos</h1>
+                </div>
           }
-        </select>
+        </div>{/* fin div map */}
       </div>
-      {
-        state2.length ?
-          state2.map(e => (
-            <Link key={e.id} to={`/countries/${e.id}`}>
-              <Country name={e.name} image={e.image} continent={e.continent} />
-            </Link>
-          ))
-          :
-          datos.length ?
-            datos.map(e => (
-              <Link key={e.id} to={`/countries/${e.id}`}>
-                <Country name={e.name} image={e.image} continent={e.continent} />
-              </Link>
-            ))
-            :
-            <div>
-              <h1>No se encontraron datos</h1>
-            </div>
-      }
     </div>
   )
 }

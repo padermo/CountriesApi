@@ -3,21 +3,23 @@ import React from 'react'
 function ViewActivities({ activities }) {
   // activities is array
   return (
-    <div>
+    <div className='container-viewactivities'>
       {
         activities.length ?
           activities.map(e => (
-            <div key={e.id}>
-              <ul>
-                <li>Activity {e.name.slice(0, 1).toUpperCase().concat(e.name.slice(1))}</li>
-                <li>Difficulty: {e.difficulty}</li>
-                <li>Duration: {e.duration}</li>
-                <li>Season: {e.season}</li>
+            <div key={e.id} className='container-list-view'>
+              <ul className='list-view'>
+                <li>Activity: <span>{e.name.slice(0, 1).toUpperCase().concat(e.name.slice(1))}</span></li>
+                <li>Difficulty: <span>{e.difficulty}</span></li>
+                <li>Duration: <span>{e.duration} Hrs</span></li>
+                <li>Season: <span>{e.season}</span></li>
               </ul>
             </div>
           ))
           :
-          ""
+          <div className='no-activities'>
+            <p>No Activities</p>
+          </div>
       }
     </div>
   )

@@ -22,8 +22,8 @@ const { conn, Country } = require('./src/db.js');
 const axios = require('axios');
 
 // cargamos la DB con los datos de la API al iniciar el servidor
-function cargar() {
-  axios.get('https://restcountries.com/v3/all').then((response) => {
+async function cargar() {
+  await axios.get('https://restcountries.com/v3/all').then((response) => {
     const formatCountry = response.data.map(e => {
       const obj = {
         id: e.cca3,
@@ -42,8 +42,8 @@ function cargar() {
 }
 
 // Syncing all the models at once.
-conn.sync({force: true}).then(async () => {
-  await cargar();
+conn.sync().then(() => {
+  () => cargar();
   server.listen(3001, () => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });

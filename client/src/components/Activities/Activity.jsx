@@ -12,7 +12,8 @@ function Activity() {
     dispatch(getCoutries());
   },[dispatch])
 
-  // ! STATE BTN CREATE
+  // ! STATE DIFFICULTY
+  const [viewValue, setViewValue] = useState("0")
 
   // ! FORM
   // validar que no exista ningun campo vacio al enviar el formulario
@@ -29,6 +30,9 @@ function Activity() {
     setActivity({
       ...activity, [e.target.name]: e.target.value
     })
+    if (e.target.name === 'difficulty') {
+      setViewValue(e.target.value)
+    }
   }
 
 
@@ -70,21 +74,21 @@ function Activity() {
   }
 
   return (
-    <div>
-      <div>
-        <form onSubmit={createActivity} style={{display:"grid", justifyContent:"center"}}>
-          <label htmlFor="name">Name</label>
-          <input id='name' type="text" name='name' value={activity.name} onChange={captureData} />
+    <div className='container-activities'>
+      <div className='container-form-activities'>
+        <form className='form-activities' onSubmit={createActivity}>
+          <label className='lbl-form' htmlFor="name">Name</label>
+          <input className='inputs-escritura' id='name' type="text" name='name' value={activity.name} onChange={captureData} placeholder='Name Activity...'/>
 
-          <label htmlFor="difficulty">Difficulty</label>
-          <input id='difficulty' type="range" min="1" max="5" name='difficulty' value={activity.difficulty} onChange={captureData} placeholder="1 a 5"/>
+          <label className='lbl-form' htmlFor="difficulty">Difficulty: {viewValue}</label>
+          <input className='inputs-range' id='difficulty' type="range" min="1" max="5" name='difficulty' value={activity.difficulty} onChange={captureData} placeholder="1 a 5"/>
 
-          <label htmlFor="duration">Duration</label>
-          <input id='duration' type="time" name='duration' value={activity.duration} onChange={captureData}/>
+          <label className='lbl-form' htmlFor="duration">Duration</label>
+          <input className='inputs-escritura' id='duration' type="time" name='duration' value={activity.duration} onChange={captureData}/>
 
           {/* "Verano", "Otoño", "Invierno", "Primavera" */}
-          <label htmlFor="season">Season</label>
-          <select name="season" id="season" onChange={captureData}>
+          <label className='lbl-form' htmlFor="season">Season</label>
+          <select className='select-options' name="season" id="season" onChange={captureData}>
             <option value="#" selected disabled>Selected season</option>
             <option value="Verano">Verano</option>
             <option value="Otoño">Otoño</option>
@@ -92,8 +96,8 @@ function Activity() {
             <option value="Primavera">Primavera</option>
           </select>
 
-          <label htmlFor="countries">Countries</label>
-          <select name="countryId" id="countries" onChange={captureCountries}>
+          <label className='lbl-form' htmlFor="countries">Countries</label>
+          <select className='select-options' name="countryId" id="countries" onChange={captureCountries}>
             <option value="default" selected disabled>Selected countries</option>
             {
               state.sort((a, b) => {
@@ -107,19 +111,23 @@ function Activity() {
           </select>
           
           {/* recuadro para ver los paises agregados */}
-          <div>
-            {
-              activity.countryId.map(e => (
-                <div key={e}>
-                  <label>{e}</label>
-                  <button onClick={deleteCountry} value={e}>X</button>
-                </div>
-              ))
-            }
+          <div className='container-countries-add'>
+            <div className="container-interno-add">
+              {
+                activity.countryId.map(e => (
+                  <div key={e} className='border-btn-country'>
+                    <label className='lbl-country-add'>{e}</label>
+                    <button className='btn-delete-country' onClick={deleteCountry} value={e}>X</button>
+                  </div>
+                ))
+              }
+              </div>
           </div>
 
-          
-          <button type='submit' >Crear</button>
+          <div className='container-btn-form'>
+            <button className="btn-delete-all btn-form">Delete All</button>
+            <button className='btn-create-form btn-form' type='submit' >Crear</button>
+          </div>
         </form>
       </div>    
     </div>
