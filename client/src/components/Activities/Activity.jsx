@@ -76,6 +76,7 @@ function Activity() {
   return (
     <div className='container-activities'>
       <div className='container-form-activities'>
+        <h2>Create Activity</h2>
         <form className='form-activities' onSubmit={createActivity}>
           <label className='lbl-form' htmlFor="name">Name</label>
           <input className='inputs-escritura' id='name' type="text" name='name' value={activity.name} onChange={captureData} placeholder='Name Activity...'/>
