@@ -4,6 +4,9 @@ import { getCoutries } from '../../redux/actions';
 import Country from './Country';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faCaretRight, faCaretLeft} from '@fortawesome/free-solid-svg-icons'
+
 
 function Countries() {
   // ! LLAMADO A LA DB
@@ -184,12 +187,15 @@ function Countries() {
     <div className='container-countries'>
       <div className='container-interno-countries'>
         <div className='container-options-countries'>
+          
           <div className='container-paginado'>
-            <button className='btn-paginado' onClick={prev}>Previous</button>
-            <label className='counter-page'>Page: {current}</label>
-            <button className='btn-paginado' onClick={next}>Next</button>
+            <button className='btn-paginado' onClick={prev}><FontAwesomeIcon icon={faCaretLeft} className='icon-fontawesome-countries'/></button>
+            <label className='counter-page'>{current} de 24</label>
+            <button className='btn-paginado' onClick={next}><FontAwesomeIcon icon={faCaretRight} className='icon-fontawesome-countries'/></button>
           </div>
+
           <div className='container-filter'>
+
             <select className='select-filtros sort-filter' onChange={selectOption}>
               <option value="default" selected disabled>Sort Filter</option>
               <option value="asc">A-Z</option>
@@ -217,7 +223,9 @@ function Countries() {
                 ))
               }
             </select>
+
           </div>
+
         </div> {/* fin div options */}
         <div className='container-coutries-all'>
           {

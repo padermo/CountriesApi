@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCoutries } from "../../redux/actions";
 import axios from 'axios'
+import Alert from './Alert';
 
 function Activity() {
   // ! DATA COUNTRIES
@@ -14,6 +15,10 @@ function Activity() {
 
   // ! STATE DIFFICULTY
   const [viewValue, setViewValue] = useState("0")
+
+  // ! STATE VIEW ALERT
+  const [viewAlert, setViewAlert] = useState(false)
+  const [msg, setMsg] = useState('')
 
   // ! FORM
   // validar que no exista ningun campo vacio al enviar el formulario
@@ -59,10 +64,12 @@ function Activity() {
     e.preventDefault(); // prevenimos que se refresque el form
 
     if (!name || !difficulty || !duration || !season || countryId.length === 0) {
-      alert("Hay campos vacios");
+      setViewAlert(true);
+      setMsg('There are empty fields')
     } else {
       await axios.post("http://localhost:3001/activities", activity);
-      alert("Create activity")
+      setViewAlert(true);
+      setMsg('Activity Created')
       setActivity({
         name: "",
         difficulty: "", 
@@ -130,6 +137,9 @@ function Activity() {
             <button className='btn-create-form btn-form' type='submit' >Crear</button>
           </div>
         </form>
+        <div className="container-alert" style={{visibility:`${viewAlert}`}}>
+          <Alert msg={msg} />
+        </div>
       </div>    
     </div>
   )
