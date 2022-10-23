@@ -81,64 +81,112 @@ function Countries() {
     }
   }
 
+
   // ! FILTROS
   // ? NOTA: filtro por continente no funciona el paginado, --- REVISAR ---
   // continent
   // Asia - Oceania - Europe - North America - Africa - South America - Antarctica
+
+  const [dataContinent, setDataContinent] = useState([])
+  const [dataView, setDataView] = useState([])
+  const [totalPage, setTotalPage] = useState(25);
+
   const selectContinent = (e) => {
     switch (e.target.value) {
       case 'asia':
-        setDatos([...state].filter(e => e.continent === "Asia"));
-        break;
+        let asia = state.filter(e => e.continent === "Asia")
+        let total1 = asia.length;
+        let page1 = Math.round(Number(total1) / 10) + 1
+        setTotalPage(page1)
+        setDataContinent(asia)
+        return;
       case 'oceania':
-        setDatos([...state].filter(e => e.continent === "Oceania"));
-        break;
+        let oceania = state.filter(e => e.continent === "Oceania")
+        let total2 = oceania.length;
+        let page2 = Math.round(Number(total2) / 10)
+        setTotalPage(page2)
+        setDataContinent(oceania);
+        return;
       case 'europe':
-        setDatos([...state].filter(e => e.continent === "Europe"));
-        break;
+        let europe = state.filter(e => e.continent === "Europe")
+        let total3 = europe.length;
+        let page3 = Math.round(Number(total3) / 10) + 1
+        setTotalPage(page3)
+        setDataContinent(europe);
+        return;
       case 'northAmerica':
-        setDatos([...state].filter(e => e.continent === "North America"));
-        break;
+        let northAmerica = state.filter(e => e.continent === "North America")
+        let total4 = northAmerica.length;
+        let page4 = Math.round(Number(total4) / 10) + 1
+        setTotalPage(page4)
+        setDataContinent(northAmerica);
+        return;
       case 'africa':
-        setDatos([...state].filter(e => e.continent === "Africa"));
-        break;
+        let africa = state.filter(e => e.continent === "Africa")
+        let total5 = africa.length;
+        let page5 = Math.round(Number(total5) / 10)
+        setTotalPage(page5)
+        setDataContinent(africa);
+        return;
       case 'southAmerica':
-        setDatos([...state].filter(e => e.continent === "South America"));
-        break;
+        let southAmerica = state.filter(e => e.continent === "South America")
+        let total6 = southAmerica.length;
+        let page6 = Math.round(Number(total6) / 10) + 1
+        setTotalPage(page6)
+        setDataContinent(southAmerica);
+        return;
       case 'antarctica':
-        setDatos([...state].filter(e => e.continent === "Antarctica"));
-        break;
+        let antarctica = state.filter(e => e.continent === "Antarctica")
+        let total7 = antarctica.length;
+        let page7 = Math.round(Number(total7) / 10)
+        setTotalPage(page7)
+        setDataContinent(antarctica);
+        return;
       default:
         break;
     }
   }
-
   
 
   // ! PAGINADO
-  const itemsPage = 10;
+  let itemsPage = 10;
 
   const [datos, setDatos] = useState([]);
   const [current, setCurrent] = useState(0);
 
   // cuando se llame al state
   useEffect(() => {
-    state.length === 1 ?
+    if (state.length === 1) {
       setDatos([...state])
-      :
+    } else {
       setDatos([...state].splice(0, itemsPage))
+    }
   }, [state, cambioAsc, cambioDesc, cambioMayor, cambioMenor])
+
+  useEffect(() => {
+    setDataView([...dataContinent].splice(0, itemsPage))
+  },[dataContinent])
 
   // btn next page
   const next = () => {
-    const totalElementos = state.length; // tomamos la cantidad de elementos del state general
-    const nextPage = current + 1; // aumentamos en 1 el current
-    const index = nextPage * itemsPage; // sacamos el indice de los elementos mostrados
+    if (dataContinent.length) {
+      const total = dataContinent.length; // 14
+      const nextPage = current + 1; // aumentamos en 1 el current
+      const index = nextPage * itemsPage; // sacamos el indice de los elementos mostrados
+      // cuando el indice sea igual a la cantidad de elementos que tiene el state general retorna
+      if (index >= total) return;
+      setDataView([...dataContinent].splice(index, itemsPage))
+      setCurrent(nextPage) // actualizamos el state current
+    }
 
-    // cuando el indice sea igual a la cantidad de elementos que tiene el state general retorna
-    if (index === totalElementos) return;
-    setDatos([...state].splice(index, itemsPage)); // mostramos los proximos 10 elementos
-    setCurrent(nextPage) // actualizamos el state current
+    if (datos.length) {
+      const totalElementos = state.length; // tomamos la cantidad de elementos del state general
+      const nextPage = current + 1; // aumentamos en 1 el current
+      const index = nextPage * itemsPage; // sacamos el indice de los elementos mostrados
+      if (index === totalElementos)return
+      setDatos([...state].splice(index, itemsPage)); // mostramos los proximos 10 elementos
+      setCurrent(nextPage) // actualizamos el state current
+    }
   }
 
   // btn prev page
@@ -147,8 +195,10 @@ function Countries() {
     if (prevPage < 0) return; // cuando la pagina sea menor de 0, ya no hay elementos que mostrar
     const index = prevPage * itemsPage; // sacamos el indice de los elementos mostrados
     setDatos([...state].splice(index, itemsPage)); // mostramos los anteriores 10 elementos
+    setDataView([...dataContinent].splice(index, itemsPage))
     setCurrent(prevPage) // actualizamos el state current
   }
+
 
 
   // ! FILTER ACTIVITIES
@@ -177,11 +227,14 @@ function Countries() {
   // * arreglar el mapeo de los datos guardados en el state para que muestre todos y no solo uno
   const selectActivity = (e) => {
     if (countriesActivity.length) {
-      if (datosActivities.data[0].name === e.target.value) {
-        setCopyCountryActivity(countriesActivity[0])
+      for (let i = 0; i <= datosActivities.data.length; i++){
+        if (datosActivities.data[i]?.name === e.target.value) {
+          setCopyCountryActivity(countriesActivity[i])
+        }
       }
     }
   }
+  // console.log(copyCountryActivity)
 
   return (
     <div className='container-countries'>
@@ -190,7 +243,7 @@ function Countries() {
           
           <div className='container-paginado'>
             <button className='btn-paginado' onClick={prev}><FontAwesomeIcon icon={faCaretLeft} className='icon-fontawesome-countries'/></button>
-            <label className='counter-page'>{current} de 24</label>
+            <label className='counter-page'>{current + 1} de {totalPage}</label>
             <button className='btn-paginado' onClick={next}><FontAwesomeIcon icon={faCaretRight} className='icon-fontawesome-countries'/></button>
           </div>
 
@@ -246,9 +299,9 @@ function Countries() {
                     </Link>
                   </div>
                 ))
-              :
-              datos.length ?
-                  datos.map(e => (
+                :
+                dataView.length ?
+                  dataView.map(e => (
                   <div key={e.id} className='container-country-map'>    
                     <Link to={`/countries/${e.id}`} className='link'>
                       <Country name={e.name} image={e.image} continent={e.continent} />
@@ -256,9 +309,18 @@ function Countries() {
                   </div>
                 ))
                 :
-                <div>
-                  <h1>No se encontraron datos</h1>
-                </div>
+                datos.length ?
+                    datos.map(e => (
+                    <div key={e.id} className='container-country-map'>    
+                      <Link to={`/countries/${e.id}`} className='link'>
+                        <Country name={e.name} image={e.image} continent={e.continent} />
+                      </Link>
+                    </div>
+                  ))
+                  :
+                  <div className='contenedor-nodata-countries'>
+                    <h1>No se encontraron datos</h1>
+                  </div>
           }
         </div>{/* fin div map */}
       </div>

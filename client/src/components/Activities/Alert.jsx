@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-function Alert({msg}) {
+function Alert({msg, name}) {
   return (
     <div className='container-alert'>
       {
@@ -14,7 +15,16 @@ function Alert({msg}) {
               <h2>{msg}</h2>
             </div>
             :
-            ""
+            msg === "Activity already exists" ?
+              <div className='container-exists'>
+                <h2>{msg}. <Link to={`/update/${name}`}>¿Desea modificarla?</Link></h2>
+              </div>
+              :
+              msg === "Activity Modify" ?
+                <div className='container-success'>
+                  <h2>{msg}</h2>
+                </div>
+                :""
       }
     </div>
   )

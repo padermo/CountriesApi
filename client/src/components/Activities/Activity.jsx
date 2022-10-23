@@ -58,27 +58,48 @@ function Activity() {
     })
   }
 
+  const deleteAllCountries = (e) => {
+    e.preventDefault();
+    setActivity({
+      ...activity,
+      countryId: []
+    })
+  }
+
+  const timeAlert = () => {
+    setTimeout(() => {
+      return setViewAlert(false)
+    },3000)
+  }
+
   // ! SEND DB
   const createActivity = async (e) => {
     const { name, difficulty, duration, season, countryId } = activity;
     e.preventDefault(); // prevenimos que se refresque el form
 
     if (!name || !difficulty || !duration || !season || countryId.length === 0) {
-      setViewAlert(true);
       setMsg('There are empty fields')
+      timeAlert()
     } else {
-      await axios.post("http://localhost:3001/activities", activity);
-      setViewAlert(true);
-      setMsg('Activity Created')
-      setActivity({
-        name: "",
-        difficulty: "", 
-        duration: "", 
-        season: "",
-        countryId: [],
-      })
+      const search = await axios.get(`http://localhost:3001/activities?name=${activity.name}`);
+      if (search.data) {
+        setMsg("Activity already exists")
+      } else {
+        await axios.post("http://localhost:3001/activities", activity);
+        setMsg('Activity Created')
+        setActivity({
+          name: "",
+          difficulty: "", 
+          duration: "", 
+          season: "",
+          countryId: [],
+        })
+        timeAlert()
+      }
     }
   }
+
+  
 
   return (
     <div className='container-activities'>
@@ -133,12 +154,12 @@ function Activity() {
           </div>
 
           <div className='container-btn-form'>
-            <button className="btn-delete-all btn-form">Delete All</button>
+            <button className="btn-delete-all btn-form" onClick={deleteAllCountries}>Delete All</button>
             <button className='btn-create-form btn-form' type='submit' >Crear</button>
           </div>
         </form>
         <div className="container-alert" style={{visibility:`${viewAlert}`}}>
-          <Alert msg={msg} />
+          <Alert msg={msg} name={activity.name} />
         </div>
       </div>    
     </div>

@@ -72,11 +72,21 @@ router.get('/countries/:idPais', async (req, res) => {
 router.post('/activities', async (req, res) => {
   const { name, difficulty, duration, season, countryId } = req.body;
   try {
+    // buscamos la actividad en caso de que exista en la DB
+    let existData = await Activity.findOne({ where: { name } });
+
     if (!name || !difficulty || !duration || !season || !countryId) throw new Error({ message: "missing data" });
-    const createActivity = await Activity.create({ name, difficulty, duration, season });
-    await createActivity.addCountries(countryId);
-    // console.log(createActivity.__proto__); // en el __proto__ consultamos los metodos que nos genera sequelize tras crear las relaciones
-    res.status(200).send(createActivity);
+    
+    // validamos la actividad
+    if (!existData) {
+      const createActivity = await Activity.create({ name, difficulty, duration, season });
+      await createActivity.addCountries(countryId);
+      // console.log(createActivity.__proto__); // en el __proto__ consultamos los metodos que nos genera sequelize tras crear las relaciones
+      res.status(200).send(createActivity);
+    } else {
+      res.status(400).send({message: "activity already exists"})
+    }
+    
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -84,9 +94,35 @@ router.post('/activities', async (req, res) => {
 
 // TODO: ------------------------------- / GET - ACTIVITY / -------------------------
 router.get('/activities', async (req, res) => {
+  const { name } = req.query;
   try {
-    const activities = await Activity.findAll({ include: [{ model: Country }] });
-    res.status(200).send(activities);
+    if (!name) {
+      const activities = await Activity.findAll({ include: [{ model: Country }] });
+      res.status(200).send(activities);
+    } else {
+      const activity = await Activity.findOne({ where: {name: name}, include: [{ model: Country }] });
+      res.status(200).send(activity);
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+// TODO: ------------------------------- / PUT - ACTIVITY / -------------------------
+router.put('/activity', async (req, res) => {
+  const { name } = req.query;
+  const { difficulty, duration, season } = req.body;
+  try {
+    // comprovamos existencias en la DB
+    let existsData = await Activity.findOne({ where: { name } });
+
+    // validamos la data
+    if (!existsData) {
+      return res.status(404).send("No exists");
+    } else {
+      const updateActivity = await Activity.update({ difficulty, duration, season }, { where: { name } });
+      res.status(200).send(updateActivity);
+    }
   } catch (error) {
     res.status(400).send(error.message);
   }
