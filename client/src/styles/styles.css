@@ -454,7 +454,13 @@
 .img-country{
   max-width: 300px;
   max-height: 200px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.329);
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.438);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 .continent-country,
 .name-country{
@@ -504,7 +510,12 @@
   max-width: 600px;
   max-height: 300px;
   border: 2px solid black;
+  border-radius: 5px;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 .container-info-detail{
   display: grid;

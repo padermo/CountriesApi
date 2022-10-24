@@ -17,12 +17,14 @@ function SearchBar() {
 
   const sendValueInput = () => {
     if (captureInput === "") {
-      alert("No hay datos a buscar")
+      alert("Enter the name of a country")
     } else {
       if (countryName.includes(captureInput)) {
         dispatch(getCountry(captureInput))
+        setCaptureInput("")
       } else {
-        alert("Country no encontrado")
+        alert("country not found")
+        setCaptureInput("")
       }
     }
   }
@@ -30,8 +32,8 @@ function SearchBar() {
   return (
     <div className='container-searchbar'>
       <div className='border-search'>
-        <input className='input-search' type="text" placeholder='Buscar...' onChange={obtainInputValue} />
-        <button className='btn-search' onClick={sendValueInput} ><Link to={'/activities' || '/' ? '/countries' : ''} className='link-countries-btn'>Buscar</Link></button>
+        <input className='input-search' type="text" placeholder='Country...' onChange={obtainInputValue} value={captureInput} />
+        <button className='btn-search' onClick={sendValueInput} ><Link to={'/activities' || '/' ? '/countries' : ''} className='link-countries-btn'>Search</Link></button>
       </div>
     </div>
   )

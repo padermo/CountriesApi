@@ -16,7 +16,6 @@ function Update({ match }) {
   const [viewValue, setViewValue] = useState("0")
 
   // ! STATE VIEW ALERT
-  const [viewAlert, setViewAlert] = useState(false)
   const [msg, setMsg] = useState('')
 
   // ! FORM
@@ -84,7 +83,7 @@ function Update({ match }) {
           </div>
         </form>
 
-        <div className="container-alert" style={{visibility:`${viewAlert}`}}>
+        <div className="container-alert" >
           <Alert msg={msg} />
         </div>
       </div>

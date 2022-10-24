@@ -17,7 +17,7 @@ function Alert({msg, name}) {
             :
             msg === "Activity already exists" ?
               <div className='container-exists'>
-                <h2>{msg}. <Link to={`/update/${name}`}>¿Desea modificarla?</Link></h2>
+                <h2>{msg}. <Link to={`/update/${name}`}>Do you want to modify?</Link></h2>
               </div>
               :
               msg === "Activity Modify" ?

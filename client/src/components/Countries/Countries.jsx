@@ -159,12 +159,12 @@ function Countries() {
     if (state.length === 1) {
       setDatos([...state])
     } else {
-      setDatos([...state].splice(0, itemsPage))
+      setDatos([...state].splice(0, 10))
     }
   }, [state, cambioAsc, cambioDesc, cambioMayor, cambioMenor])
 
   useEffect(() => {
-    setDataView([...dataContinent].splice(0, itemsPage))
+    setDataView([...dataContinent].splice(0, 10))
   },[dataContinent])
 
   // btn next page
