@@ -24,7 +24,17 @@ function Alert({msg, name}) {
                 <div className='container-success'>
                   <h2>{msg}</h2>
                 </div>
-                :""
+                :
+                msg === "Message send" ?
+                  <div className='container-success'>
+                    <h2>{msg}</h2>
+                  </div>
+                  :
+                  msg === "Invalid email" ?
+                    <div className='container-error'>
+                      <h2 className='text-alert'>{msg}</h2>
+                    </div>
+                    :""
       }
     </div>
   )

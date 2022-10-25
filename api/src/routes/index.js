@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const { Country, Activity } = require('../db');
+const { Country, Activity, Contact } = require('../db');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
@@ -122,6 +122,21 @@ router.put('/activity', async (req, res) => {
     } else {
       const updateActivity = await Activity.update({ difficulty, duration, season }, { where: { name } });
       res.status(200).send(updateActivity);
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+})
+
+// TODO: ------------------------------- / POST - CONTACT US / -------------------------
+router.post('/contact', async (req, res) => {
+  const { name, email, affair, description } = req.body;
+  try {
+    if (!name || !email || !affair || !description) {
+      res.status(400).send("empty fields")
+    } else {
+      const contactUs = await Contact.create({ name, email, affair, description });
+      res.status(200).send(contactUs);
     }
   } catch (error) {
     res.status(400).send(error.message);

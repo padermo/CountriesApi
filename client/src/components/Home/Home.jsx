@@ -7,6 +7,7 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import About from '../About/About';
 import Update from '../UpdateActivity/Update';
+import Contact from '../Contact/Contact';
 
 function Home() {
   return (
@@ -17,6 +18,7 @@ function Home() {
       <Route exact path={'/activities'} render={() => <Activity />} />
       <Route exact path={'/countries/:id'} render={({ match }) => <Detail match={match} />} />
       <Route exact path={'/update/:name'} render={({ match }) => <Update match={match} />} />
+      <Route exact path={'/contact'} render={() => <Contact/> } />
       <Footer/>
     </div>
   )

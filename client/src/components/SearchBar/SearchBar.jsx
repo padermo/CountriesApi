@@ -33,7 +33,7 @@ function SearchBar() {
     <div className='container-searchbar'>
       <div className='border-search'>
         <input className='input-search' type="text" placeholder='Country...' onChange={obtainInputValue} value={captureInput} />
-        <button className='btn-search' onClick={sendValueInput} ><Link to={'/activities' || '/' ? '/countries' : ''} className='link-countries-btn'>Search</Link></button>
+        <button className='btn-search' onClick={sendValueInput} ><Link to={'/countries'} className='link-countries-btn'>Search</Link></button>
       </div>
     </div>
   )

@@ -329,6 +329,86 @@
 
 
 
+
+/* ----------------------------------------- CONTACT US --------------------------------- */
+.container-contact{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  background-color: var(--colorBackBlur);
+}
+.container-form-contact{
+  background-color: var(--colorBackground);
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+  width: 1200px;
+}
+.container-form-contact > h2{
+  text-align: center;
+  margin: 20px 0 10px 0;
+}
+.form-contact{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.inputs-contact{
+  height: 25px;
+  font-family: var(--fontRoboto);
+  padding: 0 10px;
+  letter-spacing: .5px;
+  outline: none;
+  background-color: var(--colorBackBlur);
+  border: 1px solid var(--colorBorder);
+  box-shadow: 1px 1px 2px rgba(44, 44, 44, 0.178);
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+}
+.text-contact{
+  min-width: 350px;
+  max-width: 350px;
+  height: 50px;
+  min-height: 50px;
+  max-height: 150px;
+  padding: 4px 4px;
+  outline: none;
+  letter-spacing: .5px;
+  font-family: var(--fontRoboto);
+  box-shadow: 1px 1px 2px rgba(44, 44, 44, 0.178);
+  background-color: var(--colorBackBlur);
+  border: 1px solid var(--colorBorder);
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.container-btn-contact{
+  margin: 20px 0 0 0;
+}
+.btn-form-contact:hover{
+  transition: .2s all ease-in;
+  background-color: var(--colorHover);
+  color: rgba(58, 190, 58, 0.829);
+  box-shadow: 1px 1px 4px rgba(44, 44, 44, 0.329);
+  -webkit-transition: .2s all ease-in;
+  -moz-transition: .2s all ease-in;
+  -ms-transition: .2s all ease-in;
+  -o-transition: .2s all ease-in;
+}
+.container-alert{
+  text-align: center;
+}
+/* -------------------------------------------------------------------------------------- */
+
+
+
+
 /* ----------------------------------------- COUNTRIES ---------------------------------- */
 .container-countries{
   display: grid;
@@ -636,7 +716,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 10vh;
+  height: 15vh;
   background-color: rgb(19, 36, 92);
 }
 .container-interno-footer{
@@ -652,6 +732,11 @@
   width: 20px;
   height: 15px;
 }
+.link-contact{
+  font-family: var(--fontRoboto);
+  color: white;
+  text-decoration: none;
+}
 /* -------------------------------------------------------------------------------------- */
 
 
@@ -664,7 +749,7 @@
   align-items: center;
   width: 100%;
   height: 60vh;
-  background: linear-gradient(90deg, rgba(19, 36, 92, 0.377), rgba(19, 36, 92, 0.377)), url('../resources/turismo-y-viajes-md.jpg');
+  background: linear-gradient(90deg, rgba(19, 36, 92, 0.459), rgba(19, 36, 92, 0.459)), url('../resources/turismo-y-viajes-md.jpg');
   /* background-image: url('../resources/turismo-y-viajes-md.jpg'); */
   background-size: 100% 100%;
   background-repeat: no-repeat;
