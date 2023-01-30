@@ -17,9 +17,11 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+require('dotenv').config();
 const server = require('./src/app.js');
 const { conn, Country } = require('./src/db.js');
 const axios = require('axios');
+const port = process.env.PORT || 3001;
 
 
 
@@ -46,8 +48,8 @@ async function cargar() {
 // Syncing all the models at once.
 conn.sync().then(() => {
   ()=>cargar();
-  server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+  server.listen(port, () => {
+    console.log(`Server listen on port ${port}`); // eslint-disable-line no-console
   });
 });
 

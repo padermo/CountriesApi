@@ -85,7 +85,7 @@ function Activity() {
       if (search.data) {
         setMsg("Activity already exists")
       } else {
-        await axios.post("http://localhost:3001/activities", activity);
+        await axios.post("/activities", activity);
         setMsg('Activity Created')
         setActivity({
           name: "",
